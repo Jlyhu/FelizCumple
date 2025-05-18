@@ -198,6 +198,16 @@
     </div>
 
     <script>
+        const pairs = {
+    'frase4.jpg': 'frase7.jpg',
+    'frase7.jpg': 'frase4.jpg',
+    // Agrega otros pares si es necesario
+    'frase1.jpg': 'frase1.jpg',
+    'frase2.jpg': 'frase2.jpg',
+    'frase3.jpg': 'frase3.jpg',
+    'frase5.jpg': 'frase5.jpg',
+    'frase6.jpg': 'frase6.jpg'
+};
         const images = [
             'frase1.jpg', 'frase1.jpg',
             'frase2.jpg', 'frase2.jpg',
@@ -212,6 +222,7 @@
             'frase2.jpg': 'Yo también tengo mi lado tierno',
             'frase3.jpg': "What's up Chicago",
             'frase4.jpg': 'Las imágenes dicen más que mil palabras',
+            'frase7.jpg': 'Las imágenes dicen más que mil palabras',
             'frase5.jpg': 'Cómo vamos, cómo vamosss?',
             'frase6.jpg': 'Likes y corazones, likes y corazones'
         };
@@ -296,32 +307,41 @@
                 }
             }
         }
+function checkForMatch() {
+    const [firstCard, secondCard] = flippedCards;
+    
+    // Verifica si son pares válidos en cualquier orden
+    const isValidPair = 
+        pairs[firstCard.dataset.image] === secondCard.dataset.image || 
+        pairs[secondCard.dataset.image] === firstCard.dataset.image;
 
-        function checkForMatch() {
-            const [firstCard, secondCard] = flippedCards;
+    if (isValidPair) {                
+        matchedCards.push(firstCard, secondCard);
+        firstCard.classList.add('matched');
+        secondCard.classList.add('matched');
+        flippedCards = [];
 
-            if (firstCard.dataset.image === secondCard.dataset.image) {                
-                matchedCards.push(firstCard, secondCard);
-                firstCard.classList.add('matched');
-                secondCard.classList.add('matched');
-                flippedCards = [];
+        // Usa la frase correspondiente a la primera imagen del par
+        const phraseKey = firstCard.dataset.image in phrases ? 
+                        firstCard.dataset.image : 
+                        secondCard.dataset.image;
+        
+        const phrase = phrases[phraseKey];
+        showPopupMessage(phrase);
 
-                const phrase = phrases[firstCard.dataset.image];
-                showPopupMessage(phrase);
-
-                if (matchedCards.length === images.length) {
-                    popupTimeout = setTimeout(() => {
-                        
-                    }, 500);
-                }
-            } else {
-                popupTimeout = setTimeout(() => {
-                    firstCard.classList.remove('flipped');
-                    secondCard.classList.remove('flipped');
-                    flippedCards = [];
-                }, 1000);
-            }
+        if (matchedCards.length === images.length) {
+            popupTimeout = setTimeout(() => {
+                
+            }, 500);
         }
+    } else {
+        popupTimeout = setTimeout(() => {
+            firstCard.classList.remove('flipped');
+            secondCard.classList.remove('flipped');
+            flippedCards = [];
+        }, 1000);
+    }
+}
 
         function showPopupMessage(text) {
             clearTimeout(popupTimeout);
