@@ -6,7 +6,6 @@
     <title>🎉Match del Líder🎉</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos generales mejorados */
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
@@ -34,7 +33,7 @@
 
         #game-board {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Más columnas para aprovechar el ancho */
+            grid-template-columns: repeat(4, 1fr);
             grid-gap: 25px;
             width: 100%;
             padding: 20px;
@@ -46,14 +45,14 @@
             border: 3px solid #d84315;
             border-radius: 15px;
             cursor: pointer;
-            width: 240px; /* Tarjetas más anchas */
-            height: 180px; /* Altura ajustada */
+            width: 240px;
+            height: 180px;
             display: flex;
             position: relative;
             transition: transform 0.3s ease;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            aspect-ratio: 4/3; /* Relación más horizontal */
+            aspect-ratio: 4/3;
         }
 
         .card:hover {
@@ -64,7 +63,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 42px; /* Números más grandes */
+            font-size: 42px;
             width: 100%;
             height: 100%;
             background-color: #ffcc80;
@@ -77,9 +76,9 @@
             display: none;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Muestra toda la imagen sin recortar */
-            padding: 15px; /* Espacio alrededor de la imagen */
-            background: white; /* Fondo para áreas vacías */
+            object-fit: contain;
+            padding: 15px;
+            background: white;
             box-sizing: border-box;
         }
 
@@ -110,12 +109,33 @@
             transform: translateY(-2px);
         }
 
-        /* Responsive Design Mejorado */
+        .popup-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.97);
+            padding: 25px 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 90%;
+            font-size: 1.5em;
+            color: #d84315;
+            animation: fadeIn 0.5s;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
         @media (max-width: 1200px) {
             #game-board {
                 grid-template-columns: repeat(3, 1fr);
             }
-            
             .card {
                 width: 220px;
                 height: 165px;
@@ -127,7 +147,6 @@
                 grid-template-columns: repeat(2, 1fr);
                 grid-gap: 20px;
             }
-            
             .card {
                 width: 280px;
                 height: 210px;
@@ -139,14 +158,11 @@
                 grid-template-columns: 1fr;
                 max-width: 500px;
             }
-            
             .card {
                 width: 100%;
                 height: 250px;
                 max-width: 400px;
-                margin: 0 auto;
             }
-            
             h1 {
                 font-size: 2.5em;
             }
@@ -156,7 +172,6 @@
             .card {
                 height: 200px;
             }
-            
             #reset-button {
                 font-size: 20px;
                 padding: 15px 30px;
@@ -170,7 +185,7 @@
     <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
     <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
 
-    <h1> 🎉Match del Líder🎉</h1>
+    <h1>🎉Match del Líder🎉</h1>
     <div id="game-container">
         <div id="game-board"></div>
         <button id="reset-button">Reiniciar Juego</button>
@@ -187,12 +202,12 @@
         ];
 
         const phrases = {
-            'frase1.jpg': '¡Paren la locura!',
+            'frase1.jpg': 'Paren la locura',
             'frase2.jpg': 'Yo también tengo mi lado tierno',
             'frase3.jpg': "What's up Chicago",
-            'frase4.jpg': 'Padre orgulloso, hijo amoroso',
-            'frase5.jpg': 'COMO VAMOS, COOMOO VAMOSS',
-            'frase6.jpg': 'Likes y corazones, likes y corazones'
+            'frase4.jpg': 'Lorem ipsum dolor sit amet',
+            'frase5.jpg': 'Consectetur adipiscing elit',
+            'frase6.jpg': 'Sed do eiusmod tempor incididunt'
         };
 
         let flippedCards = [];
@@ -230,7 +245,6 @@
                 card.classList.add("card");
                 card.dataset.image = image;
 
-                // Número identificador (extraer número del nombre del archivo)
                 const pairNumber = image.match(/\d+/)[0];
                 
                 const backface = document.createElement("div");
@@ -255,7 +269,7 @@
         function flipCard() {
             if (flippedCards.length < 2 && !this.classList.contains('flipped') && !this.classList.contains('matched')) {
                 flipSound.currentTime = 0;
-                flipSound.play().catch(e => console.log("Error al reproducir sonido:", e));
+                flipSound.play();
                 
                 this.classList.add('flipped');
                 flippedCards.push(this);
@@ -271,7 +285,7 @@
 
             if (firstCard.dataset.image === secondCard.dataset.image) {
                 matchSound.currentTime = 0;
-                matchSound.play().catch(e => console.log("Error al reproducir sonido:", e));
+                matchSound.play();
                 
                 matchedCards.push(firstCard, secondCard);
                 firstCard.classList.add('matched');
@@ -284,7 +298,8 @@
                 if (matchedCards.length === images.length) {
                     popupTimeout = setTimeout(() => {
                         winSound.currentTime = 0;
-                        winSound.play().catch(e => console.log("Error al reproducir sonido:", e));
+                        winSound.play();
+                        showPopupMessage("¡Felicidades! Has encontrado todas las parejas.");
                     }, 500);
                 }
             } else {
@@ -300,9 +315,7 @@
             clearTimeout(popupTimeout);
             
             const existingPopup = document.querySelector('.popup-message');
-            if (existingPopup) {
-                existingPopup.remove();
-            }
+            if (existingPopup) existingPopup.remove();
 
             const popup = document.createElement('div');
             popup.classList.add('popup-message');
