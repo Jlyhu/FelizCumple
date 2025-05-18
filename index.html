@@ -97,8 +97,7 @@
         }
 
         .matched {
-            opacity: 0.5;
-            pointer-events: none;
+             border-color: #2e7d32;
         }
 
         #reset-button {
@@ -312,7 +311,6 @@
         function checkForMatch() {
             const [firstCard, secondCard] = flippedCards;
             
-            // Obtener números asignados
             const firstNumber = numberMapping[firstCard.dataset.image];
             const secondNumber = numberMapping[secondCard.dataset.image];
 
@@ -322,14 +320,12 @@
                 secondCard.classList.add('matched');
                 flippedCards = [];
 
-                // Obtener frase (usar primera carta como referencia)
                 const phrase = phrases[firstCard.dataset.image];
                 showPopupMessage(phrase);
 
+                // Eliminamos el mensaje final de felicitaciones
                 if (matchedCards.length === images.length) {
-                    popupTimeout = setTimeout(() => {
-                        
-                    }, 500);
+                    // No hacemos nada aquí
                 }
             } else {
                 popupTimeout = setTimeout(() => {
