@@ -275,7 +275,6 @@
                     popupTimeout = setTimeout(() => {
                         winSound.currentTime = 0;
                         winSound.play().catch(e => console.log("Error al reproducir sonido:", e));
-                        showPopupMessage("¡Felicidades! Has encontrado todas las parejas.");
                     }, 500);
                 }
             } else {
