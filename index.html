@@ -34,7 +34,7 @@
 
         #game-board {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* Menos columnas para más tamaño */
             grid-gap: 25px;
             width: 100%;
             padding: 20px;
@@ -44,8 +44,8 @@
         .card {
             background-color: transparent;
             perspective: 1000px;
-            width: 240px;
-            height: 180px;
+            width: 300px; /* Tamaño aumentado */
+            height: 250px; /* Tamaño aumentado */
             cursor: pointer;
         }
 
@@ -76,7 +76,7 @@
         .card-front {
             background-color: #ffcc80;
             color: #bf360c;
-            font-size: 42px;
+            font-size: 52px; /* Tamaño de número aumentado */
             font-weight: 700;
             border: 3px solid #d84315;
         }
@@ -84,20 +84,16 @@
         .card-back {
             background-color: white;
             transform: rotateY(180deg);
-            padding: 5px;
+            padding: 10px;
             border: 3px solid #d84315;
         }
 
         .card-image {
-            max-width: 98%;
-            max-height: 98%;
+            max-width: 95%;
+            max-height: 95%;
             object-fit: contain;
             display: block;
             margin: auto;
-        }
-
-        .matched {
-             border-color: #2e7d32;
         }
 
         #reset-button {
@@ -123,7 +119,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: rgba(255, 255, 255, 0.97);
-            padding: 25px 40px;
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
             z-index: 1000;
@@ -133,6 +129,17 @@
             animation: fadeIn 0.5s;
             font-weight: 600;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .popup-image {
+            max-width: 200px;
+            max-height: 150px;
+            margin-bottom: 20px;
+            border: 3px solid #d84315;
+            border-radius: 10px;
         }
 
         @keyframes fadeIn {
@@ -142,22 +149,11 @@
 
         @media (max-width: 1200px) {
             #game-board {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .card {
-                width: 220px;
-                height: 165px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            #game-board {
                 grid-template-columns: repeat(2, 1fr);
-                grid-gap: 20px;
             }
             .card {
                 width: 280px;
-                height: 210px;
+                height: 230px;
             }
         }
 
@@ -168,7 +164,7 @@
             }
             .card {
                 width: 100%;
-                height: 250px;
+                height: 300px;
                 max-width: 400px;
             }
             h1 {
@@ -178,7 +174,7 @@
 
         @media (max-width: 480px) {
             .card {
-                height: 200px;
+                height: 250px;
             }
             #reset-button {
                 font-size: 20px;
@@ -197,33 +193,24 @@
     </div>
 
     <script>
-        // Configuración principal
         const images = [
             'frase1.jpg', 'frase1.jpg',
-            'frase2.jpg', 'frase2.jpg',
             'frase3.jpg', 'frase3.jpg',
-            'frase4.jpg', 'frase7.jpg', // Par especial
             'frase5.jpg', 'frase5.jpg',
             'frase6.jpg', 'frase6.jpg'
         ];
 
         const numberMapping = {
             'frase1.jpg': '1',
-            'frase2.jpg': '2',
             'frase3.jpg': '3',
-            'frase4.jpg': '4',
-            'frase7.jpg': '4', // Mismo número que frase4
             'frase5.jpg': '5',
             'frase6.jpg': '6'
         };
 
         const phrases = {
             'frase1.jpg': 'Paren la locura',
-            'frase2.jpg': 'Yo también tengo mi lado tierno',
             'frase3.jpg': "What's up Chicago",
-            'frase4.jpg': 'Las imágenes dicen más que mil palabras',
-            'frase7.jpg': 'Las imágenes dicen más que mil palabras', // Misma frase que frase4
-            'frase5.jpg': 'Cómo vamos equipo, cómo vamosss?',
+            'frase5.jpg': 'Cómo vamos, cómo vamosss?',
             'frase6.jpg': 'Likes y corazones, likes y corazones'
         };
 
@@ -262,12 +249,10 @@
                 const cardInner = document.createElement("div");
                 cardInner.classList.add("card-inner");
 
-                // Frente de la tarjeta (Número)
                 const cardFront = document.createElement("div");
                 cardFront.classList.add("card-front");
-                cardFront.textContent = numberMapping[image]; // Usar mapeo personalizado
+                cardFront.textContent = numberMapping[image];
 
-                // Reverso de la tarjeta (Imagen)
                 const cardBack = document.createElement("div");
                 cardBack.classList.add("card-back");
                 
@@ -316,17 +301,10 @@
 
             if (firstNumber === secondNumber) {                
                 matchedCards.push(firstCard, secondCard);
-                firstCard.classList.add('matched');
-                secondCard.classList.add('matched');
                 flippedCards = [];
 
-                const phrase = phrases[firstCard.dataset.image];
-                showPopupMessage(phrase);
-
-                // Eliminamos el mensaje final de felicitaciones
-                if (matchedCards.length === images.length) {
-                    // No hacemos nada aquí
-                }
+                // Mostrar imagen y frase del par encontrado
+                showPopupWithImage(firstCard.dataset.image, phrases[firstCard.dataset.image]);
             } else {
                 popupTimeout = setTimeout(() => {
                     firstCard.classList.remove('flipped');
@@ -336,7 +314,7 @@
             }
         }
 
-        function showPopupMessage(text) {
+        function showPopupWithImage(imageSrc, text) {
             clearTimeout(popupTimeout);
             
             const existingPopup = document.querySelector('.popup-message');
@@ -344,7 +322,17 @@
 
             const popup = document.createElement('div');
             popup.classList.add('popup-message');
-            popup.textContent = text;
+            
+            const img = document.createElement('img');
+            img.classList.add('popup-image');
+            img.src = imageSrc;
+            img.alt = "Par encontrado";
+            
+            const message = document.createElement('div');
+            message.textContent = text;
+            
+            popup.appendChild(img);
+            popup.appendChild(message);
             document.body.appendChild(popup);
             overlay.style.display = 'block';
 
