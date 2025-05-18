@@ -6,6 +6,7 @@
     <title>🎉Match del Líder🎉</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Estilos generales mejorados */
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
@@ -13,12 +14,12 @@
             color: #bf360c;
             margin: 0;
             padding: 20px;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         h1 {
-            font-size: 3em;  /* Tamaño aumentado */
-            margin-bottom: 30px;
+            font-size: 3em;
+            margin: 30px 0;
             font-weight: 700;
             color: #d84315;
         }
@@ -27,61 +28,59 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 30px;
-            position: relative;
+            margin: 0 auto;
+            max-width: 1200px;
         }
 
-       #game-board {
+        #game-board {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);  /* Menos columnas para más espacio */
-            grid-gap: 20px;  /* Espacio aumentado */
-            max-width: 1000px;  /* Ancho máximo aumentado */
-            margin: 0 auto;
-            padding: 15px;
+            grid-template-columns: repeat(4, 1fr); /* Más columnas para aprovechar el ancho */
+            grid-gap: 25px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .card {
             background-color: #ffe0b2;
-            border: 3px solid #d84315;  /* Borde más grueso */
+            border: 3px solid #d84315;
             border-radius: 15px;
             cursor: pointer;
-            width: 180px;  /* Tamaño aumentado */
-            height: 180px;  /* Tamaño aumentado */
+            width: 240px; /* Tarjetas más anchas */
+            height: 180px; /* Altura ajustada */
             display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);  /* Sombra más pronunciada */
-            aspect-ratio: 1/1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            aspect-ratio: 4/3; /* Relación más horizontal */
         }
 
-         .card:hover {
-            transform: scale(1.05);
+        .card:hover {
+            transform: scale(1.05) rotate(2deg);
         }
 
         .card-backface {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;  /* Número más grande */
+            font-size: 42px; /* Números más grandes */
             width: 100%;
             height: 100%;
             background-color: #ffcc80;
             font-weight: 700;
             color: #bf360c;
+            position: absolute;
         }
 
         .card-image {
             display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 12px;
+            object-fit: contain; /* Muestra toda la imagen sin recortar */
+            padding: 15px; /* Espacio alrededor de la imagen */
+            background: white; /* Fondo para áreas vacías */
+            box-sizing: border-box;
         }
 
         .flipped .card-image {
@@ -91,83 +90,76 @@
         .matched {
             background-color: #c8e6c9;
             border-color: #2e7d32;
+            transform: scale(0.95);
         }
 
         #reset-button {
-            margin-top: 30px;
-            padding: 15px 30px;  /* Botón más grande */
-            font-size: 20px;  /* Texto más grande */
+            margin: 40px 0;
+            padding: 20px 40px;
+            font-size: 24px;
             cursor: pointer;
             background-color: #d84315;
             color: white;
             border: none;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
 
         #reset-button:hover {
             background-color: #bf360c;
+            transform: translateY(-2px);
         }
 
-        .popup-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.97);
-            padding: 25px 40px;  /* Padding aumentado */
-            border-radius: 20px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            max-width: 90%;
-            font-size: 1.5em;  /* Texto más grande */
-            color: #d84315;
-            animation: fadeIn 0.5s;
-            font-weight: 600;
-            text-align: center;
+        /* Responsive Design Mejorado */
+        @media (max-width: 1200px) {
+            #game-board {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .card {
+                width: 220px;
+                height: 165px;
+            }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
+        @media (max-width: 992px) {
+            #game-board {
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap: 20px;
+            }
+            
+            .card {
+                width: 280px;
+                height: 210px;
+            }
         }
 
         @media (max-width: 768px) {
             #game-board {
-                grid-template-columns: repeat(2, 1fr);  /* 2 columnas en móviles */
-                grid-gap: 15px;
-                width: 95%;
+                grid-template-columns: 1fr;
+                max-width: 500px;
             }
-
+            
             .card {
-                width: 150px;  /* Tamaño móvil aumentado */
-                height: 150px;  /* Tamaño móvil aumentado */
+                width: 100%;
+                height: 250px;
+                max-width: 400px;
+                margin: 0 auto;
             }
-
+            
             h1 {
-                font-size: 2.5em;  /* Título más grande en móvil */
-            }
-
-            .card-backface {
-                font-size: 32px;  /* Números más grandes en móvil */
-            }
-
-            #reset-button {
-                font-size: 18px;  /* Botón móvil ajustado */
-                padding: 12px 25px;
+                font-size: 2.5em;
             }
         }
 
         @media (max-width: 480px) {
             .card {
-                width: 130px;  /* Ajuste para pantallas muy pequeñas */
-                height: 130px;
+                height: 200px;
             }
-
-            .card-backface {
-                font-size: 28px;
+            
+            #reset-button {
+                font-size: 20px;
+                padding: 15px 30px;
             }
         }
     </style>
