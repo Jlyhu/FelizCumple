@@ -86,7 +86,7 @@
             background-color: white;
             transform: rotateY(180deg);
             padding: 15px;
-            border: 3px solid #2e7d32;
+            border: 3px solid #d84315;
         }
 
         .card-image {
@@ -95,8 +95,9 @@
             object-fit: contain;
         }
 
-        .matched .card-back {
-            background-color: #c8e6c9;
+        .matched {
+            opacity: 0.5;
+            pointer-events: none;
         }
 
         #reset-button {
@@ -184,31 +185,10 @@
                 padding: 15px 30px;
             }
         }
-        /* Añade este nuevo estilo al final de tu CSS */
-    .lista-elementos {
-        display: flex;
-        flex-direction: column;
-        gap: 15px; /* Espacio entre elementos */
-        margin: 20px 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .lista-elementos li {
-        background-color: #ffcc80;
-        padding: 12px;
-        border-radius: 8px;
-        border: 2px solid #d84315;
-        font-size: 1.2em;
-        text-align: center;
-    }
     </style>
 </head>
 <body>
     <div class="overlay" id="overlay"></div>
-    <audio id="matchSound" src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-1681.mp3" preload="auto"></audio>
-    <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
-    <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
 
     <h1>🎉Match del Líder🎉</h1>
     <div id="game-container">
@@ -242,9 +222,6 @@
         const gameBoard = document.getElementById("game-board");
         const resetButton = document.getElementById("reset-button");
         const overlay = document.getElementById("overlay");
-        const matchSound = document.getElementById("matchSound");
-        const winSound = document.getElementById("winSound");
-        const flipSound = document.getElementById("flipSound");
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -309,10 +286,7 @@
         }
 
         function flipCard() {
-            if (flippedCards.length < 2 && !this.classList.contains('flipped') && !this.classList.contains('matched')) {
-                flipSound.currentTime = 0;
-                flipSound.play().catch(e => console.log("Error al reproducir sonido:", e));
-                
+            if (flippedCards.length < 2 && !this.classList.contains('flipped') && !this.classList.contains('matched')) {                
                 this.classList.add('flipped');
                 flippedCards.push(this);
 
@@ -325,10 +299,7 @@
         function checkForMatch() {
             const [firstCard, secondCard] = flippedCards;
 
-            if (firstCard.dataset.image === secondCard.dataset.image) {
-                matchSound.currentTime = 0;
-                matchSound.play().catch(e => console.log("Error al reproducir sonido:", e));
-                
+            if (firstCard.dataset.image === secondCard.dataset.image) {                
                 matchedCards.push(firstCard, secondCard);
                 firstCard.classList.add('matched');
                 secondCard.classList.add('matched');
@@ -339,9 +310,7 @@
 
                 if (matchedCards.length === images.length) {
                     popupTimeout = setTimeout(() => {
-                        winSound.currentTime = 0;
-                        winSound.play().catch(e => console.log("Error al reproducir sonido:", e));
-                        showPopupMessage("¡Felicidades! Has encontrado todas las parejas.");
+                        
                     }, 500);
                 }
             } else {
