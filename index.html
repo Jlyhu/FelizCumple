@@ -17,8 +17,8 @@
         }
 
         h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
+            font-size: 3em;  /* Tamaño aumentado */
+            margin-bottom: 30px;
             font-weight: 700;
             color: #d84315;
         }
@@ -27,36 +27,37 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             position: relative;
         }
 
-        #game-board {
+       #game-board {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 10px;
-            max-width: 600px;
+            grid-template-columns: repeat(3, 1fr);  /* Menos columnas para más espacio */
+            grid-gap: 20px;  /* Espacio aumentado */
+            max-width: 1000px;  /* Ancho máximo aumentado */
             margin: 0 auto;
+            padding: 15px;
         }
 
         .card {
             background-color: #ffe0b2;
-            border: 2px solid #d84315;
-            border-radius: 10px;
+            border: 3px solid #d84315;  /* Borde más grueso */
+            border-radius: 15px;
             cursor: pointer;
-            width: 120px;
-            height: 120px;
+            width: 180px;  /* Tamaño aumentado */
+            height: 180px;  /* Tamaño aumentado */
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             transition: transform 0.2s;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);  /* Sombra más pronunciada */
             aspect-ratio: 1/1;
         }
 
-        .card:hover {
+         .card:hover {
             transform: scale(1.05);
         }
 
@@ -64,7 +65,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 36px;  /* Número más grande */
             width: 100%;
             height: 100%;
             background-color: #ffcc80;
@@ -80,7 +81,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 12px;
         }
 
         .flipped .card-image {
@@ -93,14 +94,14 @@
         }
 
         #reset-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+            margin-top: 30px;
+            padding: 15px 30px;  /* Botón más grande */
+            font-size: 20px;  /* Texto más grande */
             cursor: pointer;
             background-color: #d84315;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             transition: background-color 0.3s;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
@@ -115,13 +116,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.97);
+            padding: 25px 40px;  /* Padding aumentado */
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            max-width: 80%;
-            font-size: 1.2em;
+            max-width: 90%;
+            font-size: 1.5em;  /* Texto más grande */
             color: #d84315;
             animation: fadeIn 0.5s;
             font-weight: 600;
@@ -133,23 +134,40 @@
             to { opacity: 1; transform: translate(-50%, -50%); }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             #game-board {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr);  /* 2 columnas en móviles */
+                grid-gap: 15px;
                 width: 95%;
             }
 
             .card {
-                width: 100px;
-                height: 100px;
+                width: 150px;  /* Tamaño móvil aumentado */
+                height: 150px;  /* Tamaño móvil aumentado */
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 2.5em;  /* Título más grande en móvil */
             }
 
             .card-backface {
-                font-size: 20px;
+                font-size: 32px;  /* Números más grandes en móvil */
+            }
+
+            #reset-button {
+                font-size: 18px;  /* Botón móvil ajustado */
+                padding: 12px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 130px;  /* Ajuste para pantallas muy pequeñas */
+                height: 130px;
+            }
+
+            .card-backface {
+                font-size: 28px;
             }
         }
     </style>
