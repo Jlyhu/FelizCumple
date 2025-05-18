@@ -113,18 +113,19 @@
             transform: translateY(-2px);
         }
 
-        .popup-message {
+.popup-message {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: rgba(255, 255, 255, 0.97);
-            padding: 30px;
+            padding: 40px; /* Más padding */
             border-radius: 20px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            max-width: 90%;
-            font-size: 1.5em;
+            max-width: 80%; /* Ancho máximo aumentado */
+            min-width: 400px; /* Ancho mínimo */
+            font-size: 2em; /* Texto más grande */
             color: #d84315;
             animation: fadeIn 0.5s;
             font-weight: 600;
@@ -135,11 +136,14 @@
         }
 
         .popup-image {
-            max-width: 200px;
-            max-height: 150px;
-            margin-bottom: 20px;
+            max-width: 300px; /* Tamaño aumentado */
+            max-height: 250px; /* Altura aumentada */
+            width: 100%;
+            height: auto;
+            margin-bottom: 30px; /* Más espacio */
             border: 3px solid #d84315;
             border-radius: 10px;
+            object-fit: contain; /* Mejor ajuste de imagen */
         }
 
         @keyframes fadeIn {
@@ -179,6 +183,31 @@
             #reset-button {
                 font-size: 20px;
                 padding: 15px 30px;
+            }
+
+            @media (max-width: 768px) {
+            .popup-message {
+                min-width: 300px;
+                padding: 30px;
+                font-size: 1.8em;
+            }
+            
+            .popup-image {
+                max-width: 250px;
+                max-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .popup-message {
+                min-width: 250px;
+                padding: 20px;
+                font-size: 1.6em;
+            }
+            
+            .popup-image {
+                max-width: 200px;
+                max-height: 150px;
             }
         }
     </style>
@@ -330,19 +359,21 @@
             
             const message = document.createElement('div');
             message.textContent = text;
+            message.style.marginTop = '20px'; /* Espacio adicional */
             
             popup.appendChild(img);
             popup.appendChild(message);
             document.body.appendChild(popup);
             overlay.style.display = 'block';
 
+            // Aumentar tiempo de visualización a 4 segundos
             popupTimeout = setTimeout(() => {
                 popup.style.animation = 'fadeOut 0.5s forwards';
                 setTimeout(() => {
                     popup.remove();
                     overlay.style.display = 'none';
                 }, 500);
-            }, 2000);
+            }, 4000); // Cambiado de 2000 a 4000 ms
         }
 
         resetButton.addEventListener("click", createBoard);
