@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Frases</title>
+    <title>Juego de Frases Especiales</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
-            background-color: #e3f2fd;
-            color: #1a237e;
+            background-color: #fff3e0;
+            color: #bf360c;
             margin: 0;
             padding: 20px;
             overflow-x: hidden;
@@ -20,7 +20,7 @@
             font-size: 2.5em;
             margin-bottom: 20px;
             font-weight: 700;
-            color: #0d47a1;
+            color: #d84315;
         }
 
         #game-container {
@@ -40,8 +40,8 @@
         }
 
         .card {
-            background-color: #bbdefb;
-            border: 2px solid #1a237e;
+            background-color: #ffe0b2;
+            border: 2px solid #d84315;
             border-radius: 10px;
             cursor: pointer;
             width: 120px;
@@ -64,32 +64,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 24px;
             width: 100%;
             height: 100%;
-            background-color: #90caf9;
+            background-color: #ffcc80;
+            font-weight: 700;
+            color: #bf360c;
         }
 
-        .phrase-text {
+        .card-image {
             display: none;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 16px;
-            color: #1a237e;
-            background-color: #e3f2fd;
+            object-fit: cover;
             border-radius: 8px;
         }
 
-        .flipped .phrase-text {
-            display: flex;
+        .flipped .card-image {
+            display: block;
         }
 
         .matched {
@@ -102,7 +97,7 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #1a237e;
+            background-color: #d84315;
             color: white;
             border: none;
             border-radius: 5px;
@@ -112,7 +107,7 @@
         }
 
         #reset-button:hover {
-            background-color: #0d47a1;
+            background-color: #bf360c;
         }
 
         .popup-message {
@@ -127,7 +122,7 @@
             z-index: 1000;
             max-width: 80%;
             font-size: 1.2em;
-            color: #1a237e;
+            color: #d84315;
             animation: fadeIn 0.5s;
             font-weight: 600;
             text-align: center;
@@ -154,11 +149,7 @@
             }
 
             .card-backface {
-                font-size: 30px;
-            }
-
-            .phrase-text {
-                font-size: 14px;
+                font-size: 20px;
             }
         }
     </style>
@@ -169,7 +160,7 @@
     <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
     <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
 
-    <h1>Juego de Frases Especiales</h1>
+    <h1>Juego de Parejas Especiales</h1>
     <div id="game-container">
         <div id="game-board"></div>
         <button id="reset-button">Reiniciar Juego</button>
@@ -229,15 +220,19 @@
                 card.classList.add("card");
                 card.dataset.image = image;
 
+                // Número identificador (extraer número del nombre del archivo)
+                const pairNumber = image.match(/\d+/)[0];
+                
                 const backface = document.createElement("div");
                 backface.classList.add("card-backface");
-                backface.innerHTML = "❓";
+                backface.textContent = pairNumber;
                 card.appendChild(backface);
 
-                const phraseDiv = document.createElement("div");
-                phraseDiv.classList.add("phrase-text");
-                phraseDiv.textContent = phrases[image];
-                card.appendChild(phraseDiv);
+                const img = document.createElement("img");
+                img.classList.add("card-image");
+                img.src = image;
+                img.alt = "Imagen frase";
+                card.appendChild(img);
 
                 card.addEventListener("click", flipCard);
                 gameBoard.appendChild(card);
