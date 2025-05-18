@@ -21,6 +21,7 @@
             margin: 30px 0;
             font-weight: 700;
             color: #d84315;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         #game-container {
@@ -256,6 +257,15 @@
                 img.classList.add("card-image");
                 img.src = image;
                 img.alt = "Imagen frase";
+                // Agregado manejo de error para imágenes
+                img.onerror = function() {
+                    this.style.display = "none";
+                    const errorMsg = document.createElement("div");
+                    errorMsg.textContent = "Imagen no encontrada";
+                    errorMsg.style.color = "#ff0000";
+                    errorMsg.style.fontWeight = "bold";
+                    card.appendChild(errorMsg);
+                };
                 card.appendChild(img);
 
                 card.addEventListener("click", flipCard);
@@ -269,7 +279,7 @@
         function flipCard() {
             if (flippedCards.length < 2 && !this.classList.contains('flipped') && !this.classList.contains('matched')) {
                 flipSound.currentTime = 0;
-                flipSound.play();
+                flipSound.play().catch(e => console.log("Error al reproducir sonido:", e));
                 
                 this.classList.add('flipped');
                 flippedCards.push(this);
@@ -285,7 +295,7 @@
 
             if (firstCard.dataset.image === secondCard.dataset.image) {
                 matchSound.currentTime = 0;
-                matchSound.play();
+                matchSound.play().catch(e => console.log("Error al reproducir sonido:", e));
                 
                 matchedCards.push(firstCard, secondCard);
                 firstCard.classList.add('matched');
@@ -298,7 +308,7 @@
                 if (matchedCards.length === images.length) {
                     popupTimeout = setTimeout(() => {
                         winSound.currentTime = 0;
-                        winSound.play();
+                        winSound.play().catch(e => console.log("Error al reproducir sonido:", e));
                         showPopupMessage("¡Felicidades! Has encontrado todas las parejas.");
                     }, 500);
                 }
